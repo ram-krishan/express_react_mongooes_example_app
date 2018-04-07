@@ -1,33 +1,54 @@
 const express = require('express');
 const router = express.Router();
+const _ = require('lodash');
 
+const dummyUsers = [
+  {
+    id: 1,
+    name: 'ram',
+    age: 20,
+  },
+  {
+    id: 2,
+    name: 'sumit',
+    age: 21,
+  },
+  {
+    id: 3,
+    name: 'vijay',
+    age: 22,
+  },
+  {
+    id: 4,
+    name: 'ragh',
+    age: 23,
+  }
+]
 
-// book restfull request routes
-router.get('/books', function (req, res) {
-  res.send('Listing books here..')
+//User restfull request routes
+router.get('/users', function (req, res) {
+  res.send(dummyUsers)
 });
 
-router.post('/books', function (req, res) {
-  res.send('I will create book here...')
+// postman :: body raw  type: JSON/application format.
+router.post('/users', function (req, res) {
+  res.send({ type: 'post', body: req.body });
 });
 
-router.get('/books/:id', function (req, res) {
-  res.send('will show book here')
+router.get('/users/:id', function (req, res) {
+  res.send({ type: 'get', user: _.find(dummyUsers, { id: parseInt(req.params.id, 10) })});
 });
 
-router.put('/books/:id', function (req, res) {
-  res.send('update book here with put')
+router.put('/users/:id', function (req, res) {
+  res.send({ type: 'put', id: req.query.id })
 });
 
-router.patch('/books/:id', function (req, res) {
-  res.send('update book here with patch')
+router.patch('/users/:id', function (req, res) {
+  res.send({ type: 'pathc', id: req.query.id })
 });
 
-router.delete('/books/:id', function (req, res) {
-  res.send('delete book here');
+router.delete('/users/:id', function (req, res) {
+  res.send({ type: 'delete', id: req.query.id });
 });
-
-
-
 
 module.exports  = router;
