@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
+const User = require('./src/models/user');
+
 
 const dummyUsers = [
   {
@@ -32,7 +34,11 @@ router.get('/users', function (req, res) {
 
 // postman :: body raw  type: JSON/application format.
 router.post('/users', function (req, res) {
-  res.send({ type: 'post', body: req.body });
+  User.create(req.body).then(user => {
+    res.send({ type: 'post', user: user });
+  }).catch(error => {
+    res.send({type: 'post', error: error });
+  })
 });
 
 router.get('/users/:id', function (req, res) {

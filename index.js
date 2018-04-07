@@ -1,8 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const mongoose  = require('mongoose');
+
 const router = require('./router');
 
 var app = express();
+
+
+mongoose.connect('mongodb://mongo:mongo@ds163613.mlab.com:63613/express-db');
+mongoose.Promise = global.Promise;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
