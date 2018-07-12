@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
+const AddressSchema = require('./address').AddressSchema;
+const timestamps = require('mongoose-timestamp');
 const Schema = mongoose.Schema;
-
 
 const userSchema = new Schema({
   email:  { type: String, required: [true, 'Email should be present'] },
   password:  { type: String, required: [true, 'Password should be present'] },
   name:  { type: String, required: [true, 'Name should be present'] },
   age: { type: Number, required: [true, 'Age should be present'] },
+  addresses: [AddressSchema],
 });
 
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
@@ -18,7 +20,8 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
     cb("Invalid credentials", false);
   }
 };
+userSchema.plugin(timestamps);
 
-var User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = { User, userSchema } ;

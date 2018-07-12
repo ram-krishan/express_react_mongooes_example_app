@@ -1,3 +1,4 @@
+const morgan = require('morgan')
 const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport');
@@ -9,7 +10,7 @@ const router = require('./router');
 const User = require('./src/models/user');
 
 var app = express();
-
+app.use(morgan('combined'))
 
 mongoose.connect('mongodb://mongo:mongo@ds163613.mlab.com:63613/express-db');
 mongoose.Promise = global.Promise;
